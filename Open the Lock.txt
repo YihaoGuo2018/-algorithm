@@ -1,0 +1,45 @@
+
+class Solution {
+public:
+	int openLock(std::vector<std::string>& deadends, std::string target) {
+		std::set<std::string> fastfind(deadends.begin(), deadends.end());
+		std::string init = "0000";
+		if (fastfind.find(init) != fastfind.end()) return -1;
+		std::set<std::string> used;
+		used.emplace("0000");
+		std::queue<std::string> find ;
+		find.push(init);
+		int number = 0;
+		while (find.size())
+		{
+			int size = find.size();
+			while (size)
+			{
+				std::string tmp = find.front();
+				find.pop();
+				if (target == tmp) return number;
+
+				for (int i = 0; i < 4; i++)
+				{
+					std::string tmp1 = tmp, tmp2 = tmp;
+					tmp1[i] = (tmp1[i] - '0' + 1) % 10 + '0';
+					tmp2[i] = (tmp[i] - '0' - 1 + 10) % 10 + '0';
+					if (used.find(tmp1) == used.end() && fastfind.find(tmp1) == fastfind.end())
+					{
+						find.push(tmp1);
+						used.insert(tmp1);
+					}
+					if (used.find(tmp2) == used.end() && fastfind.find(tmp2) == fastfind.end())
+					{
+						find.push(tmp2);
+						used.insert(tmp2);
+					}
+
+				}
+				size--;
+			}
+			number++;
+		}
+        return -1;
+	}
+};

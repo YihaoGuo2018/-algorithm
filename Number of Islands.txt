@@ -1,0 +1,37 @@
+
+class Solution {
+public:
+	int numIslands(std::vector<std::vector<char>>& grid)
+	{
+		const int row = grid.size();
+		if (0 == row) return 0;
+		const int col = grid[0].size();
+		std::queue < std::pair<int, int>> link;
+		int number = 0;
+		for (int i = 0; i < row; i++)
+		{
+			for (int i2 = 0; i2 < col; i2++)
+			{
+				if ('0' == grid[i][i2]) continue;
+				std::set<std::pair<int, int>> used;
+				DFS(grid, i, i2, used);
+				number++;
+			}
+		}
+		return number;
+	}
+private:
+	void DFS(std::vector<std::vector<char>>& grid, int i, int j, std::set<std::pair<int, int>>& used)
+	{
+		std::vector<std::pair<int, int>> dirs = { {-1,0},{1,0},{0,1},{0,-1} };
+		for (auto dir : dirs)
+		{
+			int x = i + dir.first, y = j + dir.second;
+			if ((used.find(std::pair<int, int>(x, y)) != used.end()) || x < 0 || y < 0 || x >= grid.size() || y >= grid[0].size() || grid[x][y] == '0') continue;
+			used.emplace(x, y);
+			DFS(grid, x, y, used);
+			grid[x][y] = '0';
+		}
+		grid[i][j] = '0';
+	};
+};

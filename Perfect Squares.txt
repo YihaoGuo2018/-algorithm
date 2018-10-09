@@ -1,0 +1,38 @@
+
+class Solution {
+public:
+	int numSquares(int n) {
+		if (n <= 0) return 0;
+		std::vector<int> squares;
+		std::vector<int> perfect(n);
+		for (int i = 1; i*i <=n; i++)
+		{
+			squares.push_back(i*i);
+			//perfect[i*i-1] = 1;
+		}
+		std::queue<int> find;
+		find.push(0);
+		int number = 1;
+		while (find.size())
+		{
+			int size = find.size();
+			for (int i = 0; i < size; i++)
+			{
+				int tmp = find.front();
+				find.pop();
+				for (auto dir : squares)
+				{
+					int tmp1 = tmp + dir;
+					if (tmp1 == n) return number;
+					if (((tmp1-1)<n&&perfect[tmp1-1]>number) || ((tmp1-1) < n&&perfect[tmp1-1] == 0))
+					{
+						perfect[tmp1-1] = number;
+						find.push(tmp1);
+					}
+				}
+			}
+			number++;
+		}
+
+	}
+};

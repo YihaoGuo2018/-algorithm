@@ -1,0 +1,32 @@
+class Solution {
+public:
+    
+    void helper(vector<vector<int>> &pResultList, vector<int>& pNumberList, vector<int>& pCurrentSet, int pIndex) {
+        
+        if (pIndex == pNumberList.size()) { 
+            pResultList.push_back(pCurrentSet);
+            return;
+        }
+        
+        //Continue along the list, assuming the current
+        //element is not in the working set.
+        helper(pResultList, pNumberList, pCurrentSet, pIndex + 1);
+        
+        //Add the current element to the set...
+        pCurrentSet.push_back(pNumberList[pIndex]);
+        
+        //Continue along the list, assuming the current
+        //element is in the working set.
+        helper(pResultList, pNumberList, pCurrentSet, pIndex + 1);
+        
+        //Remove the current element from the set...
+        pCurrentSet.pop_back();
+    }
+        
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> aResult;
+        vector<int> aCurrentSet;
+        helper(aResult, nums, aCurrentSet, 0);
+        return aResult;
+    }
+};

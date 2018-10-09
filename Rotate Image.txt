@@ -1,0 +1,18 @@
+class Solution {
+public:
+    void rotate_internal(vector<vector<int>>& m, int low, int high){
+        if (low >= high) return;
+        for(auto i=0; i<high-low; i++){
+            int tmp = m[low][low+i];
+            m[low][low+i] = m[high-i][low];
+            m[high-i][low] = m[high][high-i];
+            m[high][high-i] = m[low+i][high];
+            m[low+i][high] = tmp;
+        }
+        rotate_internal(m, low+1, high-1);
+    }
+    
+    void rotate(vector<vector<int>>& matrix) {
+        rotate_internal(matrix, 0, matrix.size()-1); 
+    }
+};

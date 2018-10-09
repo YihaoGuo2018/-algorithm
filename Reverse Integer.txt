@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int reverse(int x) {
+        
+        if (abs(x)<10) {
+            return x;
+        }
+        long long solve=0,f=1;
+        queue<int> save;
+        long long tmp=x;
+        if (x<0) {
+            f=-1;
+            
+            tmp*=-1;
+        }
+        while (tmp>0) {
+            save.push(tmp%10);
+            tmp/=10;
+        }
+        while (save.front()==0) {
+            save.pop();
+        }
+        while (save.size()) {
+            solve*=10;
+            solve+=save.front();
+            save.pop();
+        }
+        solve*=f;
+        if (solve>INT_MAX||solve<INT_MIN) {
+            return 0;
+        }
+        return solve;
+    }
+};

@@ -1,0 +1,33 @@
+class Solution {
+public:
+	void wallsAndGates(std::vector<std::vector<int>>& rooms) {
+		const int row = rooms.size();
+		if (row == 0) return;
+		const int col = rooms[0].size();
+		std::queue<std::pair<int, int>>canreach;
+		std::vector<std::pair<int, int>>dirs = { {1,0},{0,1},{-1,0},{0,-1} };
+		for (int i = 0; i < row; i++)
+		{
+			for (int j = 0; j < col; j++)
+			{
+				if (0 == rooms[i][j])
+				{
+					canreach.emplace(i, j);
+				}
+			}
+		}
+		while (!canreach.empty())
+		{
+			int r = canreach.front().first, c = canreach.front().second;
+			canreach.pop();
+			for (auto dir : dirs)
+			{
+				int x = r + dir.first, y = c + dir.second;
+				if (x < 0 || y < 0 || x >= row || y >= col || rooms[x][y] <= rooms[r][c]) continue; 
+				rooms[x][y] = rooms[r][c] + 1;
+				canreach.emplace(x, y);
+				
+			}
+		}
+	}
+};
