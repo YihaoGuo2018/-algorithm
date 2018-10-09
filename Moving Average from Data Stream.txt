@@ -1,0 +1,27 @@
+class MovingAverage {
+public:
+	std::queue<int>q_save;
+	int q_size = -1;
+	int sum = 0;
+	/** Initialize your data structure here. */
+	MovingAverage(int size) {
+		q_size = size;
+	}
+
+	double next(int val) {
+		if (q_save.size() == q_size) {
+			sum -= q_save.front();
+			q_save.pop();
+			q_save.push(val);
+			sum += val;
+		}
+		if(q_save.size() < q_size){
+			sum += val;
+			q_save.push(val);
+			
+		}
+		double tmp1 = sum;
+		double tmp2 = q_save.size()；
+		return tmp1 / tmp2;
+	}
+};
